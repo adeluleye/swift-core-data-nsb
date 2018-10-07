@@ -26,7 +26,19 @@ class ViewController: UITableViewController {
     }
     
     @objc func addItem(_ sender: AnyObject) {
-        print("added")
+        let alertController = UIAlertController(title: "Add New Item", message: "Please fill in the textfield below", preferredStyle: .alert)
+        let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned self] action in
+            guard let textField = alertController.textFields?.first, let itemToAdd = textField.text else { return }
+            self.items.append(itemToAdd)
+            self.tableView.reloadData()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+        alertController.addTextField(configurationHandler: nil)
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     
